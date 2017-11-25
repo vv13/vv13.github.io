@@ -1,0 +1,37 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"><title>vv13</title><link rel="stylesheet" href="/css/vv13.css"><link rel="stylesheet" href="//at.alicdn.com/t/font_438575_w9o3rescwyp919k9.css"><link rel="icon" href="/undefined"></head><body><div id="content-outer"><link rel="stylesheet" href="/css/github-markdown.css"><article class="markdown-body" id="post"><h1 class="article-title">js事件触发机制</h1><div class="title-info"><time class="post-time" datetime="2017-10-17T15:27:11.000Z">10.17, 2017</time><div class="title-item"><a href="/tags/js/"><i class="iconfont icon-tag">js</i></a></div></div><p>事件捕获</p>
+<p>由网景最先提出，事件会从最外层开始发生，直到最具体的元素，也就是说假如父元素与子元素都绑定有点击事件，又互相重叠，那么先出发的会是父元素的事件，然后再传递到子元素。</p>
+<p>事件冒泡</p>
+<p>由微软提出，事件会从最内从的元素开始发生，再向外传播，正好与事件捕获相反。</p>
+<p>这两个概念都是为了解决页面中事件流的发生顺序，w3c采取了折中的办法，制定了统一的标准：先捕获再冒泡。</p>
+<hr>
+<p>addEventListen(event, function, useCapture)添加事件的第三个参数默认值为false，即默认使用事件冒泡，若为true则使用事件捕获的机制，以下为测试代码：</p>
+<pre><code>container.addEventListener(&apos;click&apos;, () =&gt; console.log(&apos;container&apos;), true)
+child.addEventListener(&apos;click&apos;, () =&gt; console.log(&apos;child&apos;), true)
+// 点击child, 输出: container，child
+
+container.addEventListener(&apos;click&apos;, () =&gt; console.log(&apos;container&apos;))
+child.addEventListener(&apos;click&apos;, () =&gt; console.log(&apos;child&apos;))
+// 点击child, 输出: child，container
+</code></pre><p>假若还是在两个div中，希望点击子元素时不触发父元素的点击事件，我们就需要用到阻止冒泡的方式：stopPropagation，改写child的方法：</p>
+<pre><code>child.addEventListener(&apos;click&apos;, e =&gt; {
+  console.log(&apos;child&apos;)
+  e.stopPropagation()
+});
+</code></pre><p>说起了stopPropagation，还有一种方式为preventDefault，它的作用不是用于阻止冒泡，而是阻止浏览器默认行为，如a标签跳转，submit提交等。</p>
+<p>还有一种方式称为事件委托，利用冒泡的机制，子元素的点击事件可由父元素委托执行，举个例子，还是如上视图，子元素点击事件删除以后，对父元素做以下定义：</p>
+<pre><code>container.addEventListener(&quot;click&quot;, e =&gt; {
+  if (e.target.id === &apos;child&apos;) {
+    console.log(&apos;child&apos;)
+  }
+});
+</code></pre><p>可见，当点击子元素依然会输出child，在某些特定场景利用事件委托可节省大量的性能。</p>
+<p>明白了上述事件关系，target与currentTarget也就易于理解了，简言之，target指引发出发事件的元素，currentTarget则指事件绑定的元素，如通过点击子元素出发父元素，那么父元素中event对象的target为子元素，而currentTarget为它本身。</p>
+</article><div id="commenter"></div><link rel="stylesheet" href="/css/dark.css"><script src="/js/gitment.js"></script><script>var gitment = new Gitment({
+owner: 'vv13',
+repo: 'vv13.github.io',
+oauth: {
+    client_id: 'fc26f0c5db6ee176856d',
+    client_secret: 'adaddc022d70102d2f037f675d0b29a13d5283dd',
+},
+})
+gitment.render('commenter')</script><div id="footer"><div>vv13 &copy; 2017</div><div class="shortcut"><a href="/atom.xml"><i class="iconfont icon-rss" aria-hidden="true"></i></a><a href="https://github.com/vv13"><i class="iconfont icon-github" aria-hidden="true"></i></a></div></div><div class="side-menu"><div class="shortcut" id="goHome"><a href="/"><i class="icon-home iconfont" aria-hidden="true"></i></a></div><div class="shortcut" id="goTop"><i class="icon-yijiantisheng iconfont" aria-hidden="true"></i></div></div></div><script src="/js/vv13.js"></script><div id="container"></div></body></html>

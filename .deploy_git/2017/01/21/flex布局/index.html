@@ -1,0 +1,42 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"><title>vv13</title><link rel="stylesheet" href="/css/vv13.css"><link rel="stylesheet" href="//at.alicdn.com/t/font_438575_w9o3rescwyp919k9.css"><link rel="icon" href="/undefined"></head><body><div id="content-outer"><link rel="stylesheet" href="/css/github-markdown.css"><article class="markdown-body" id="post"><h1 class="article-title">flex布局</h1><div class="title-info"><time class="post-time" datetime="2017-01-21T11:50:00.000Z">1.21, 2017</time><div class="title-item"><a href="/tags/web/"><i class="iconfont icon-tag">web</i></a></div></div><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>flex即弹性盒子布局，它比传统的布局提供更大的灵活性，w3c组织在09年提出这个概念，目前已经广泛应用于支持各个浏览器。</p>
+<p>它最大的特性是可以使子元素充分的利用容器的空间，当空间不足时也可进行收缩，以此来适应各种各样的屏幕大小，也能根据权重排列子元素的顺序。</p>
+<p>设置容器为flex布局，只需要设置<code>display: flex</code>即可。它将具有以下特性：</p>
+<ol>
+<li>子元素float、clear、vertical-align将失效。</li>
+<li>存在主轴(默认为水平)与交叉轴，通过flex-direction可设置主轴的方向。</li>
+</ol>
+<h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p><img src="/imgs/flex布局.png" alt=""></p>
+<h4 id="轴线"><a href="#轴线" class="headerlink" title="轴线"></a>轴线</h4><ul>
+<li>主轴: 它是flex子元素的排列方向，默认为水平向右，可根据flex-direction确定方向。</li>
+<li>交叉轴：垂直于主轴,确定子元素的垂直方向上的位置。</li>
+</ul>
+<h4 id="flex-属性："><a href="#flex-属性：" class="headerlink" title="flex 属性："></a>flex 属性：</h4><ul>
+<li>flex-direction，设置主轴的方向</li>
+<li>flex-wrap，项目是否多行显示</li>
+<li>flex-flow，flex-direction与flex-wrap的缩写，默认为row nowrap</li>
+<li>justify-content，项目在主轴上的对齐方式</li>
+<li>align-items，项目在交叉轴上的对齐方式</li>
+<li>align-content，多根轴线的对其方式，对只有一根轴线的无效</li>
+</ul>
+<h4 id="flex-item属性："><a href="#flex-item属性：" class="headerlink" title="flex item属性："></a>flex item属性：</h4><ul>
+<li>order，项目的权重，数值越小排列越靠前</li>
+<li>flex-grow，项目的放大比例，默认为0不放大</li>
+<li>flex-shrink，项目的缩小比例，默认为1等比缩小，设置为0后不缩小</li>
+<li>flex-basis，项目本身的大小，和width、height类似</li>
+<li>flex，flex-grow、flex-shrink和flex-basis属性的简写</li>
+<li>align-self，设置项目自身的对其方式，覆盖align-items属性</li>
+</ul>
+<p>各项详细配置，请参照阮老师的<a href="http://www.ruanyifeng.com/blog/2015/07/flex-grammar.html" target="_blank" rel="external">语法文章</a>。</p>
+<h2 id="Usage"><a href="#Usage" class="headerlink" title="Usage"></a>Usage</h2><blockquote>
+<p><a href="http://vv13.cn/flex-demo" target="_blank" rel="external">vv13.cn/flex-demo</a></p>
+</blockquote>
+<p>文字不便描述，直接访问在线app示例吧，这里是<a href="https://github.com/vv13/flex-demo.git" target="_blank" rel="external">github地址</a>～</p>
+</article><div id="commenter"></div><link rel="stylesheet" href="/css/dark.css"><script src="/js/gitment.js"></script><script>var gitment = new Gitment({
+owner: 'vv13',
+repo: 'vv13.github.io',
+oauth: {
+    client_id: 'fc26f0c5db6ee176856d',
+    client_secret: 'adaddc022d70102d2f037f675d0b29a13d5283dd',
+},
+})
+gitment.render('commenter')</script><div id="footer"><div>vv13 &copy; 2017</div><div class="shortcut"><a href="/atom.xml"><i class="iconfont icon-rss" aria-hidden="true"></i></a><a href="https://github.com/vv13"><i class="iconfont icon-github" aria-hidden="true"></i></a></div></div><div class="side-menu"><div class="shortcut" id="goHome"><a href="/"><i class="icon-home iconfont" aria-hidden="true"></i></a></div><div class="shortcut" id="goTop"><i class="icon-yijiantisheng iconfont" aria-hidden="true"></i></div></div></div><script src="/js/vv13.js"></script><div id="container"></div></body></html>

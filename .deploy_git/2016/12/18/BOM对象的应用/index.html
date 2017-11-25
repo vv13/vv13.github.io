@@ -1,0 +1,26 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"><title>vv13</title><link rel="stylesheet" href="/css/vv13.css"><link rel="stylesheet" href="//at.alicdn.com/t/font_438575_w9o3rescwyp919k9.css"><link rel="icon" href="/undefined"></head><body><div id="content-outer"><link rel="stylesheet" href="/css/github-markdown.css"><article class="markdown-body" id="post"><h1 class="article-title">BOM对象的应用</h1><div class="title-info"><time class="post-time" datetime="2016-12-18T12:24:59.000Z">12.18, 2016</time><div class="title-item"><a href="/tags/js/"><i class="iconfont icon-tag">js</i></a></div></div><p>BOM即浏览器对象模型，在js代码里，存在一个代表窗体的全局window对象，通过它可以与浏览器进行一定的交互功能，如：</p>
+<ul>
+<li>跳转到新的网址：<code>window.location.href = &#39;http://www.google.com&#39;;</code></li>
+<li>打开新的窗体：<code>window.open(&#39;http://www.google.com&#39;);</code></li>
+<li>刷新页面：<code>window.location.reload();</code></li>
+<li>后退：<code>window.history.back();</code></li>
+<li>前进：<code>window.history.forward();</code></li>
+</ul>
+<h4 id="子窗体与父窗体对象的引用"><a href="#子窗体与父窗体对象的引用" class="headerlink" title="子窗体与父窗体对象的引用"></a>子窗体与父窗体对象的引用</h4><p>考虑以下场景：在一个页面中弹出一个子页面，在操作完成后即关闭子页面并刷新父页面。这个场景会在登录页面中十分常见，我们希望当用户登陆完成后刷新父页面，因此需要引用父对象，若在同源页面（浏览器的同源保护策略）即可对子页面进行以下方法的调用：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">function dealOk() &#123;</div><div class="line">  window.opener.location.reload();</div><div class="line">  window.close();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>若是引入第三方的页面，如qq互联接口，则无法直接通过opener获取到父对象进行操作，我们可以通过轮询子窗体状态进行控制：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">// showPopup会返回window对象，原理是window.open()方法的调用</div><div class="line">const childrenWindow = QC.Login.showPopup(&#123;</div><div class="line">  appId: APPID,</div><div class="line">  redirectURI: REDIRECT_URI,</div><div class="line">&#125;);</div><div class="line"></div><div class="line">const timer = setInterval(() =&gt; &#123;</div><div class="line"></div><div class="line">  // 查看窗体是否被关闭</div><div class="line">  if (childrenWindow.closed) &#123;</div><div class="line">    clearInterval(timer); // 清除轮询</div><div class="line">    window.location.reload(); // 刷新页面</div><div class="line">  &#125;</div><div class="line">&#125;,500);</div></pre></td></tr></table></figure>
+<h4 id="a标签阻止其跳转"><a href="#a标签阻止其跳转" class="headerlink" title="a标签阻止其跳转"></a>a标签阻止其跳转</h4><p>将a标签的href值设为undefined，就可以阻止其跳转，void函数会执行一个表达式，并只返回undefined，我们也可以通过执行<code>;</code>直接返回undefined：</p>
+<ul>
+<li><code>&lt;a href=&quot;javascript:void(0);&quot;&gt;点击不会进行跳转&lt;/a&gt;</code></li>
+<li><code>&lt;a href=&quot;javascript:;&quot;&gt;点击不会进行跳转&lt;/a&gt;</code></li>
+</ul>
+</article><div id="commenter"></div><link rel="stylesheet" href="/css/dark.css"><script src="/js/gitment.js"></script><script>var gitment = new Gitment({
+owner: 'vv13',
+repo: 'vv13.github.io',
+oauth: {
+    client_id: 'fc26f0c5db6ee176856d',
+    client_secret: 'adaddc022d70102d2f037f675d0b29a13d5283dd',
+},
+})
+gitment.render('commenter')</script><div id="footer"><div>vv13 &copy; 2017</div><div class="shortcut"><a href="/atom.xml"><i class="iconfont icon-rss" aria-hidden="true"></i></a><a href="https://github.com/vv13"><i class="iconfont icon-github" aria-hidden="true"></i></a></div></div><div class="side-menu"><div class="shortcut" id="goHome"><a href="/"><i class="icon-home iconfont" aria-hidden="true"></i></a></div><div class="shortcut" id="goTop"><i class="icon-yijiantisheng iconfont" aria-hidden="true"></i></div></div></div><script src="/js/vv13.js"></script><div id="container"></div></body></html>
