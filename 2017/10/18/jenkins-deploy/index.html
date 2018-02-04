@@ -1,0 +1,22 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"><title>vv13</title><link rel="stylesheet" href="/style/index.css"><link rel="stylesheet" href="//at.alicdn.com/t/font_438575_w9o3rescwyp919k9.css"><link rel="icon" href="/undefined"></head><body><div id="content-outer"><link rel="stylesheet" href="/static/github-markdown.css"><article class="markdown-body" id="post"><h1 class="article-title">jenkins部署</h1><div class="title-info"><time class="post-time" datetime="2017-10-18T15:59:52.000Z">10.18, 2017</time><div class="title-item"></div></div><p>Jenkins是一种由Java开发的持续集成工具，称为CI(Continuous integration)，主要功能是将代码频繁地集成到主干，可以让代码快的迭代，并提高代码质量。</p>
+<p>典型的工作流为：开发→提交→编译→测试→发布，Jenkins可以帮你完成除了开发之后的工作，实现自动化。</p>
+<h2 id="Jenkins部署步骤"><a href="#Jenkins部署步骤" class="headerlink" title="Jenkins部署步骤"></a>Jenkins部署步骤</h2><p>准备工作如下：</p>
+<ol>
+<li>服务器安装docker</li>
+<li>拉取镜像：<code>docker pull jenkins/jenkins</code></li>
+<li>创建一个文件夹<code>jenkins_home</code>用于存放jenkins所有配置文件，挂载出来方便迁移，遇到权限问题可设置：<code>chown 1000 ./jenkins_home</code></li>
+</ol>
+<p>做完以上流程，即可执行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker run -d --name jenkins_node -p 8899:8080 -v /var/jenkins_home:/var/jenkins_home jenkins/jenkins</div></pre></td></tr></table></figure>
+<p>其中，参数如下定义：</p>
+<ul>
+<li>-d，docker进程在后台运行</li>
+<li>-name，docker容器名称</li>
+<li>-p，映射docker端口8080为本地端口8899，通过<code>localhost:8899</code>即可访问</li>
+<li>-v，将服务器的<code>/var/jenkins_home</code>挂载到docker容器的<code>/var/jenkins_home</code></li>
+</ul>
+<p>以上步骤都执行成功后，访问<code>server_ip/8899</code>可以看到如下页面：</p>
+<p><img src="http://7xp5r4.com1.z0.glb.clouddn.com/17-10-18/84127408.jpg" alt=""></p>
+<p>此时查询到container ID， 然后通过<code>docker logs id</code>可以查询到密钥就在log中：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">INFO:</div><div class="line"></div><div class="line">*************************************************************</div><div class="line">*************************************************************</div><div class="line">*************************************************************</div><div class="line"></div><div class="line">Jenkins initial setup is required. An admin user has been created and a password generated.</div><div class="line">Please use the following password to proceed to installation:</div><div class="line"></div><div class="line">密钥密钥密钥密钥密钥密钥密钥密钥密钥密钥密钥密钥密钥密钥密钥密钥密钥密钥</div><div class="line"></div><div class="line">This may also be found at: /var/jenkins_home/secrets/initialAdminPassword</div><div class="line"></div><div class="line">*************************************************************</div><div class="line">*************************************************************</div><div class="line">*************************************************************</div></pre></td></tr></table></figure>
+</article><div id="commenter"></div><div id="footer"><div>vv13 &copy; 2017<a class="ama" href="https://github.com/vv13/ama" target="_blank">Ask Me Anything</a></div><div class="shortcut"><a href="/atom.xml"><i class="iconfont icon-rss" aria-hidden="true"></i></a><a href="https://github.com/vv13"><i class="iconfont icon-github" aria-hidden="true"></i></a></div></div><div class="side-menu"><div class="shortcut" id="goHome"><a href="/"><i class="icon-home iconfont" aria-hidden="true"></i></a></div><div class="shortcut" id="goTop"><i class="icon-yijiantisheng iconfont" aria-hidden="true"></i></div></div></div><script src="/js/vv13.js"></script><div id="container"></div></body></html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"><title>vv13</title><link rel="stylesheet" href="/style/index.css"><link rel="stylesheet" href="//at.alicdn.com/t/font_438575_w9o3rescwyp919k9.css"><link rel="icon" href="/undefined"></head><body><div id="content-outer"><link rel="stylesheet" href="/static/github-markdown.css"><article class="markdown-body" id="post"><h1 class="article-title">css的BFC特性</h1><div class="title-info"><time class="post-time" datetime="2017-10-23T15:29:05.000Z">10.23, 2017</time><div class="title-item"><a href="/tags/web/"><i class="iconfont icon-tag">web</i></a></div></div><h3 id="预备知识"><a href="#预备知识" class="headerlink" title="预备知识"></a>预备知识</h3><p><strong>毗邻元素</strong></p>
+<p>只要两个容器之间没有被非空内容、padding、border或clear隔开，那么就可以称作毗邻元素，父组件相对于其第一个子元素或最后一个子元素，只要没有相隔任何上述条件，也可称之为毗邻元素</p>
+<p><strong>普通流(normal flow)</strong></p>
+<p>在普通流中，元素按照其在HTML中的先后顺序至上而下布局，这个过程中，行内元素水平排列，直到当行被占满后换行，块级元素则会被渲染为一个新行，除非另外指定，否则所有元素默认都是普通流定位。</p>
+<p>以下情况会脱离文档流而存在，分别是：<code>float: left</code>、<code>position: absolute</code>、<code>position: fixed</code></p>
+<h3 id="什么是BFC"><a href="#什么是BFC" class="headerlink" title="什么是BFC"></a>什么是BFC</h3><p>Block Formatting Context，块格式化上下文，拥有一套渲染规则来决定子元素将如何布局，以及和其他子元素的相互关系。</p>
+<p>BFC可通过如下条件形成：</p>
+<ul>
+<li>浮动元素、绝对定位元素</li>
+<li>非块级盒子的块级容器(inline-blocks、table-cells、table-captions)</li>
+<li>overflow不为默认值visible</li>
+</ul>
+<p>BFC的特性如下：</p>
+<ul>
+<li>内部的Box会在垂直方向，从顶部开始一个接一个地放置</li>
+<li>Box垂直方向的距离由margin决定，属于同一个BFC的两个相邻Box会发生叠加</li>
+<li>在BFC中，每一个Box的左外边缘，会触碰到容器的左边缘，右边也依然，即使存在浮动也如此</li>
+<li>形成了BFC的区域不会与float box重叠</li>
+<li>它是一个隔离的容器，容器内的子元素不会影响到外面的元素</li>
+<li>计算BFC的高度时，浮动元素也参与计算</li>
+</ul>
+<p>利用BFC的特性，我们可以用来解决诸如以下等问题。</p>
+<h3 id="消除外边距塌陷-margin-collapsing"><a href="#消除外边距塌陷-margin-collapsing" class="headerlink" title="消除外边距塌陷(margin collapsing)"></a>消除外边距塌陷(margin collapsing)</h3><p>在同一个BFC中，两个或多个毗邻的普通流中的块元素垂直方向上的margin会发生叠加，相邻块的外边距有时会被合并为单个外边距，取其中更大的值，这种行为称为外边距塌陷，发生此情况有一下几种情况：</p>
+<p><strong>1. 相邻的兄弟姐妹元素</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&lt;p style=&quot;margin-bottom: 30px;&quot;&gt;这个段落的下外边距被合并...&lt;/p&gt;</div><div class="line">&lt;p style=&quot;margin-top: 20px;&quot;&gt;...这个段落的上外边距被合并。&lt;/p&gt;</div></pre></td></tr></table></figure>
+<p>此时p的距离为30px，而不是预想的50px，在布局时需要注意。</p>
+<p><strong>2. 父子元素</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;div class=&quot;parent&quot; style=&quot;margin-top: 20px;&quot;&gt;</div><div class="line">  &lt;p class=&quot;child&quot; style=&quot;margin-top: 10px;&quot;&gt;p的margin会被父元素的margin合并&lt;/p&gt;</div><div class="line">&lt;/div&gt;</div></pre></td></tr></table></figure>
+<p>产生这种影响必须满足两个条件：</p>
+<ol>
+<li>第一个子元素的上边距和父元素的上边距会进行合并</li>
+<li>最后一个子元素的下边距会和父元素的下边距进行合并</li>
+</ol>
+<p>当父元素的margin-top为0时，而子元素不为0，则整个区域都会具有子元素的外边距，这种情况称之为<strong>子元素劫持</strong>。给父元素设置<code>overflow: hidden</code>或是其他，触发了BFC特性即可解决。</p>
+<p><strong>3. 空元素</strong></p>
+<p>它的上下边距会自动合并为一个外边距，这作为外边距塌陷的一种特殊情况。</p>
+<h3 id="解决父元素塌陷"><a href="#解决父元素塌陷" class="headerlink" title="解决父元素塌陷"></a>解决父元素塌陷</h3><p>父元素塌陷指的是当子元素全为float，父元素高度为0这种情况，因为float元素不占据文档流(normal flow)空间，所以产生了塌陷，只需触发父元素的BFC特性即可解决，BFC会根据子元素的情况自动适应高度，包含浮动的子元素。</p>
+<h3 id="解决元素被浮动元素覆盖"><a href="#解决元素被浮动元素覆盖" class="headerlink" title="解决元素被浮动元素覆盖"></a>解决元素被浮动元素覆盖</h3><p>浮动元素的毗邻节点会无视浮动的元素，尽量占满一行，这样就会被浮动元素所覆盖到，因此只需要把非浮动元素触发BFC，则会形成两列布局，从而不会被浮动元素覆盖。</p>
+</article><div id="commenter"></div><div id="footer"><div>vv13 &copy; 2017<a class="ama" href="https://github.com/vv13/ama" target="_blank">Ask Me Anything</a></div><div class="shortcut"><a href="/atom.xml"><i class="iconfont icon-rss" aria-hidden="true"></i></a><a href="https://github.com/vv13"><i class="iconfont icon-github" aria-hidden="true"></i></a></div></div><div class="side-menu"><div class="shortcut" id="goHome"><a href="/"><i class="icon-home iconfont" aria-hidden="true"></i></a></div><div class="shortcut" id="goTop"><i class="icon-yijiantisheng iconfont" aria-hidden="true"></i></div></div></div><script src="/js/vv13.js"></script><div id="container"></div></body></html>

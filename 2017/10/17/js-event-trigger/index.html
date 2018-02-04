@@ -1,0 +1,37 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"><title>vv13</title><link rel="stylesheet" href="/style/index.css"><link rel="stylesheet" href="//at.alicdn.com/t/font_438575_w9o3rescwyp919k9.css"><link rel="icon" href="/undefined"></head><body><div id="content-outer"><link rel="stylesheet" href="/static/github-markdown.css"><article class="markdown-body" id="post"><h1 class="article-title">js事件触发机制</h1><div class="title-info"><time class="post-time" datetime="2017-10-17T15:27:11.000Z">10.17, 2017</time><div class="title-item"><a href="/tags/js/"><i class="iconfont icon-tag">js</i></a></div></div><h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p><strong>事件捕获</strong></p>
+<p>由网景最先提出，事件会从最外层开始发生，直到最具体的元素，也就是说假如父元素与子元素都绑定有点击事件，又互相重叠，那么先出发的会是父元素的事件，然后再传递到子元素。</p>
+<p><strong>事件冒泡</strong></p>
+<p>由微软提出，事件会从最内从的元素开始发生，再向外传播，正好与事件捕获相反。</p>
+<p>这两个概念都是为了解决页面中事件流的发生顺序，w3c采取了折中的办法，制定了统一的标准：先捕获再冒泡。</p>
+<hr>
+<p><img src="http://7xp5r4.com1.z0.glb.clouddn.com/17-10-17/68340524.jpg" alt=""></p>
+<p><code>addEventListen(event, function, useCapture)</code>添加事件的第三个参数默认值为false，即默认使用事件冒泡，若为true则使用事件捕获的机制，以下为测试代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">container.addEventListener(&apos;click&apos;, () =&gt; console.log(&apos;container&apos;), true)</div><div class="line">child.addEventListener(&apos;click&apos;, () =&gt; console.log(&apos;child&apos;), true)</div><div class="line">// 点击child, 输出: container，child</div><div class="line"></div><div class="line">container.addEventListener(&apos;click&apos;, () =&gt; console.log(&apos;container&apos;))</div><div class="line">child.addEventListener(&apos;click&apos;, () =&gt; console.log(&apos;child&apos;))</div><div class="line">// 点击child, 输出: child，container</div></pre></td></tr></table></figure>
+<p>假若还是在两个div中，希望点击子元素时不触发父元素的点击事件，我们就需要用到<strong>阻止冒泡</strong>的方式：<code>stopPropagation</code>，改写child的方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">child.addEventListener(&apos;click&apos;, e =&gt; &#123;</div><div class="line">  console.log(&apos;child&apos;)</div><div class="line">  e.stopPropagation()</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>说起了stopPropagation，还有一种方式为preventDefault，它的作用不是用于阻止冒泡，而是<strong>阻止浏览器默认行为</strong>，如a标签跳转，submit提交等。</p>
+<p>还有一种方式称为<strong>事件委托</strong>，利用冒泡的机制，子元素的点击事件可由父元素委托执行，举个例子，还是如上视图，子元素点击事件删除以后，对父元素做以下定义：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">container.addEventListener(&quot;click&quot;, e =&gt; &#123;</div><div class="line">  if (e.target.id === &apos;child&apos;) &#123;</div><div class="line">    console.log(&apos;child&apos;)</div><div class="line">  &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>可见，当点击子元素依然会输出<code>child</code>，在某些特定场景利用事件委托可节省大量的性能。</p>
+<p>明白了上述事件关系，target与currentTarget也就易于理解了，简言之，<strong>target指引发出发事件的元素，currentTarget则指事件绑定的元素</strong>，如通过点击子元素出发父元素，那么父元素中event对象的target为子元素，而currentTarget为它本身。</p>
+<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><p>在这里有必要谈谈鼠标事件，大家可能知道但不记得的常用鼠标事件有以下四种：</p>
+<ul>
+<li>mouseenter：鼠标进入时触发，不响应子元素冒泡事件</li>
+<li>mouseover：鼠标进入时触发，响应子元素冒泡事件</li>
+<li>mouseleave：鼠标离开时触发，不响应子元素冒泡事件</li>
+<li>mouseout：鼠标离开时触发，响应子元素冒泡事件</li>
+</ul>
+<p>让我们举一个实际场景来说明关于冒泡的应该(偷懒不附上详细代码了)：</p>
+<p><img src="http://7xp5r4.com1.z0.glb.clouddn.com/17-10-19/36934899.jpg" alt=""></p>
+<p>场景如下：</p>
+<ul>
+<li>鼠标移入每一行，显示编辑按钮，移出则取消</li>
+<li>点击编辑按钮后，显示输入框，直到点击确定才回到之前的状态</li>
+</ul>
+<p>其实这个场景看起来简单，不明白事件机制就容易遇到很多坑，毕竟是用原生js写，而不是jquery的解决方案，接下来我来说一下我实现此场景的步骤。</p>
+<p>单看页面，其实就是ul&gt;li结构，此场景的条数可能有上千条，我最先考虑到的也是hover机制，但是css hover并不能解决问题，因为点击编辑以后，就不受hover态影响了，因此该编辑与输入框的显示应该由两个元素变量来判断：<code>&lt;div class=&quot;schedule-input-wrap&quot; v-show=&quot;isEdit || hovering&quot;&gt;</code>，也就是说，hover过后hovering为true，点击编辑以后isEdit为true，点击确定以后并移开鼠标此元素才会隐藏。</p>
+<p>有了思路，首先考虑<strong>事件捕获机制</strong>，也就是说，我只需要在ul上监听一个mouseover事件，然后通过target.id来判断鼠标移入的是哪个li就行了，但实际情况会比这个复杂，因为子元素也会触发mouseover事件，它会产生冒泡，这样一来，就不能单纯的实现li的hover效果，那怎么办呢？css中有个效果为<code>pointer-events:none;</code>，当我给子元素设置好此属性，结果真的就不冒泡了，能正常显示了，但是这样一来，子元素不仅不会响应mouseover事件，连click事件也不会显示了，因此果断排除掉。</p>
+<p>后来的解决方法是在li上添加mouseenter事件，而在ul元素上加mouseleave事件，这样一来，hover态的变量控制就十分完美了，部分代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&lt;ul @mouseleave=&quot;hoverId=&apos;&apos;&quot;&gt;</div><div class="line">    &lt;li v-for=&quot;(item, itemIndex) in record.schedulings&quot;</div><div class="line">        @mouseenter=&quot;hoverId=`item$&#123;itemIndex&#125;`&quot;</div><div class="line">        ....</div><div class="line">        &lt;schedule-input :hovering=&quot;isHovering(itemIndex)&quot;</div><div class="line">        &gt;&lt;/schedule-input&gt;</div><div class="line">    &lt;/li&gt;</div><div class="line">&lt;/ul&gt;</div></pre></td></tr></table></figure>
+<p>其中，hovering的prop用于判定hoverId是否等于当前li的itemIndex。</p>
+</article><div id="commenter"></div><div id="footer"><div>vv13 &copy; 2017<a class="ama" href="https://github.com/vv13/ama" target="_blank">Ask Me Anything</a></div><div class="shortcut"><a href="/atom.xml"><i class="iconfont icon-rss" aria-hidden="true"></i></a><a href="https://github.com/vv13"><i class="iconfont icon-github" aria-hidden="true"></i></a></div></div><div class="side-menu"><div class="shortcut" id="goHome"><a href="/"><i class="icon-home iconfont" aria-hidden="true"></i></a></div><div class="shortcut" id="goTop"><i class="icon-yijiantisheng iconfont" aria-hidden="true"></i></div></div></div><script src="/js/vv13.js"></script><div id="container"></div></body></html>
