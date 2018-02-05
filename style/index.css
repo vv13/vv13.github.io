@@ -5,10 +5,10 @@ body {
 }
 html {
   font-size: 62.5%;
-  background: $bg;
+  background: #1d1f21;
 }
 a {
-  color: $highlight;
+  color: #c6c7c7;
 }
 #content-outer {
   width: 80%;
@@ -21,24 +21,24 @@ a {
   font-size: 1.4rem;
 }
 .recent-post-item a {
-  color: $highlight;
+  color: #c6c7c7;
 }
 .recent-post-item .post-title {
   font-size: 3.6rem;
-  color: $title;
+  color: rgba(255,255,255,0.6);
   text-decoration: none;
   cursor: pointer;
 }
 .recent-post-item .post-title:hover {
-  color: $hover;
-  border-bottom: 1px solid $title;
+  color: #c4edde;
+  border-bottom: 1px solid rgba(255,255,255,0.6);
 }
 .recent-post-item .post-time {
   font-size: 1.3rem;
-  color: $highlight;
+  color: #c6c7c7;
 }
 .recent-post-item .post-excerpt {
-  color: $hint;
+  color: #777d81;
 }
 .recent-post-item .post-excerpt ul {
   overflow: auto;
@@ -60,7 +60,7 @@ a {
   height: 50px;
   line-height: 50px;
   font-size: 1.4rem;
-  color: $hint;
+  color: #777d81;
   display: flex;
   align-content: center;
   justify-content: space-between;
@@ -90,7 +90,7 @@ a {
 }
 #tag h1 {
   font-size: 3rem;
-  color: $title;
+  color: rgba(255,255,255,0.6);
 }
 #tag h1 .iconfont {
   font-size: 30px;
@@ -101,7 +101,7 @@ a {
   font-size: 1.5rem;
 }
 #tag .article-list-item .item-time {
-  color: $hint;
+  color: #777d81;
   display: inline-block;
   min-width: 100px;
   margin-right: 20px;
@@ -112,7 +112,7 @@ a {
   text-decoration: none;
 }
 #tag .article-list-item .post-title:hover {
-  color: $hover;
+  color: #c4edde;
 }
 .markdown-body {
   box-sizing: border-box;
@@ -173,12 +173,12 @@ figure .code {
   font-size: 24px;
 }
 #post {
-  color: $hint;
+  color: #777d81;
   font-size: 1.5rem;
 }
 #post .article-title {
   font-size: 4.5rem;
-  color: $title;
+  color: rgba(255,255,255,0.6);
 }
 .side-menu {
   position: fixed;
@@ -204,7 +204,7 @@ figure .code {
 }
 .side-menu .shortcut .iconfont {
   font-size: 30px;
-  color: $title;
+  color: rgba(255,255,255,0.6);
 }
 #goTop {
   display: none;

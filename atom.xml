@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://blog.vv13.cn/"/>
-  <updated>2017-10-24T14:13:37.634Z</updated>
+  <updated>2018-02-05T17:35:19.881Z</updated>
   <id>http://blog.vv13.cn/</id>
   
   <author>
@@ -14,6 +14,130 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>移动端适配</title>
+    <link href="http://blog.vv13.cn/2018/02/06/css_adapt/"/>
+    <id>http://blog.vv13.cn/2018/02/06/css_adapt/</id>
+    <published>2018-02-05T16:50:00.000Z</published>
+    <updated>2018-02-05T17:35:19.881Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h2><h3 id="屏幕尺寸"><a href="#屏幕尺寸" class="headerlink" title="屏幕尺寸"></a>屏幕尺寸</h3><p>屏幕尺寸即屏幕对角线之间的距离，单位为英寸(inch)。单位换算如下：</p>
+<ul>
+<li>1 inch = 2.54 cm</li>
+<li>1 cm = 0.3937inch</li>
+</ul>
+<h3 id="分辨率"><a href="#分辨率" class="headerlink" title="分辨率"></a>分辨率</h3><p>分辨率大致分为两种：</p>
+<ol>
+<li>屏幕分辨率，例如屏幕分辨率为1920 x 1080，代表着设备屏幕水平方向有1024个像素点，垂直方向有1080个像素点，显示屏固定的情况下，分辨率越高画面越精细。</li>
+<li>图像分辨率，通常情况下，图像的分辨率越高，所包含的像素就越多，图像就越清晰，印刷的质量也就越好。同时，它也会增加文件占用的存储空间。</li>
+</ol>
+<h3 id="页面尺寸单位"><a href="#页面尺寸单位" class="headerlink" title="页面尺寸单位"></a>页面尺寸单位</h3><p>相对单位：</p>
+<ul>
+<li><strong>px</strong>，通常代表一个设备像素点的显示，对于打印机和高分辨率屏幕，一个css像素意味着多个设备像素。</li>
+<li><strong>%</strong>，相对于目前容器元素宽度的百分比。</li>
+</ul>
+<ul>
+<li><strong>em</strong>，相对于父及单位的font-size取值，如果容器font-size为18px，此时1em=18px。在使用em时需要尤其注意，em单位会具有继承效果，继承于离它最近元素的font-size，如出现em嵌套使用，那么将会很难对其进行管理，em通常用于某独立的组件的响应设计上，不要嵌套不相关的元素在里面使用。</li>
+<li><strong>rem</strong>，相对于根html的font-size取值，如果页面具有：<code>html{font-size:20px;}</code>，此时<code>1rem=20px</code>。</li>
+<li><strong>ex</strong>，表示字体的x-height，通常为字体尺寸的1/2，1ex≈0.5em。</li>
+<li><strong>无单位</strong>，当设置单位为0时可以不指定具体单位，行高也可以不设置单位。</li>
+</ul>
+<p>绝对单位(多用于印刷)：</p>
+<ul>
+<li><strong>cm/mm/in</strong>，即厘米/毫米/英寸。</li>
+<li><strong>pt</strong>，磅(1/72英寸)。</li>
+<li><strong>pc</strong>，12点活体字。</li>
+</ul>
+<p>视口单位：</p>
+<ul>
+<li><strong>vw/vh</strong>，分别相对于视口宽度的1/100和视口高度的1/100。</li>
+<li><strong>vmin/vmax</strong>，视口高度和宽度之间的最小值的1/100。</li>
+<li><strong>vmax</strong>，视口高度和宽度之间的最大值得1/100。</li>
+</ul>
+<h2 id="像素"><a href="#像素" class="headerlink" title="像素"></a>像素</h2><p>像素(pixel)是组成图像的最小显示单位，它是一个抽象的单位，而不是具体的长度，在Web开发中通常将像素分为两类：</p>
+<ol>
+<li><strong>设备像素</strong>，指设备的物理像素，任何设备屏幕的物理像素的数量都是不变的。</li>
+<li><strong>CSS像素</strong>，指设备的逻辑像素，也称为独立像素，是一个相对的单位大小。1个CSS像素在不同设备上对应不同的物理像素数，这个比值称为DPR(Device Pixel Ration，设备像素比)。</li>
+</ol>
+<p>以Phone 5为例，它的设备像素为640/1136px，设备像素比为2，因此CSS像素为320/568px。设计师通常根据固定的设备像素进行设计，前端工程师再根据不同设备的特性，将物理像素转换为相应的逻辑像素。</p>
+<h3 id="设备像素比"><a href="#设备像素比" class="headerlink" title="设备像素比"></a>设备像素比</h3><p>设备像素比缩写为DPR(Device Pixel Ratio)或者DPPX(Dots Per Pixel)，一般用于表示一个CSS像素等于几个物理像素：<code>DPR=物理像素/逻辑像素</code>。当dpr为2时，1个CSS像素由4个物理像素组成，可通过<code>window.devicePixelRatio</code>获取当前设备的dpr。</p>
+<h3 id="像素密度"><a href="#像素密度" class="headerlink" title="像素密度"></a>像素密度</h3><p>像素密度也叫做屏幕密度，缩写为DPI(dots Per Inch)或PPI(Pixels Per Inch)。以iphone X举例，设备的参数如下：</p>
+<ul>
+<li>水平分辨率：2436px</li>
+<li>垂直分辨率：1125px</li>
+<li>屏幕对角线尺寸：5.8英寸</li>
+</ul>
+<p>为了计算像素密度，我们通常需要求出屏幕对角线的分辨率，再除以屏幕对角线尺寸。根据勾股定理(直角三角形的两条直角边的长度的平方和等于斜边长的平方)，得以下表达式：<br><img src="http://7xp5r4.com1.z0.glb.clouddn.com/18-2-6/69150988.jpg" alt=""></p>
+<p>tricks：</p>
+<ul>
+<li>DPI与PPI其实指代的东西是不同的，需要注意语境，人们多为混用。</li>
+<li>根据实验，普通人眼在一般阅读距离的极限就是300~400DPI，所以说目前的高清屏的DPI也在300左右。</li>
+<li>普通的非彩色喷墨式打印机通常设定在300dpi，根据公式：<code>像素=英寸 x dpi</code>，可以通过调整图像像素大小，获取所需要的实际尺寸大小。</li>
+</ul>
+<h3 id="寸照究竟有多少像素？"><a href="#寸照究竟有多少像素？" class="headerlink" title="寸照究竟有多少像素？"></a>寸照究竟有多少像素？</h3><p>通过搜索，<code>1寸=2.5cm x 3.5cm=413 x 295</code>，聪明的你肯定不需要过多的说明，看以下换算公式：<br><img src="http://7xp5r4.com1.z0.glb.clouddn.com/18-2-6/99937072.jpg" alt=""></p>
+<h2 id="viewport-视口"><a href="#viewport-视口" class="headerlink" title="viewport(视口)"></a>viewport(视口)</h2><p>viewport概念通常存在于移动端，因为pc端的视口大小与窗口相等，而在移动设备的浏览器中，一般视口的默认大小会比设备逻辑的独立像素要大，并可拖过手动缩放来浏览网页，这个窗口就称之为viewport，普通设备浏览器的默认viewport通常为980px或1024px，随之的副作用就是设备的横向滚动条。</p>
+<h3 id="布局视口"><a href="#布局视口" class="headerlink" title="布局视口"></a>布局视口</h3><p>手机浏览器默认会去适应那些不是为移动端设计的网站，因此会为viewport设置一个默认值，一般为980px，这样大部分电脑端页面都能正常显示了，只是比例看起来很小，因此布局视口通常是大于浏览器可视区域，不进行缩放的情况也会有额外的额外滚动条，这个宽度可以通过<code>document.documentElement.clientWidth</code>来进行获取，它跟设备的大小没有关系。</p>
+<h3 id="视觉视口"><a href="#视觉视口" class="headerlink" title="视觉视口"></a>视觉视口</h3><p>用户默认看到的网站区域，即为视觉视口大小，放大会使视觉视口大小变小，因为整个屏幕显示的CSS像素更少了，而缩小会使其变大，缩放不会影响布局视口大小。</p>
+<h3 id="理想视口"><a href="#理想视口" class="headerlink" title="理想视口"></a>理想视口</h3><p>布局视口并不是一个理想宽度，对设备而言，设备宽度即是理想视口宽度，通常可见viewport的一个属性：<code>width=device-width</code>，这一行代码告诉浏览器将视口大小设置为理想视口大小。</p>
+<h3 id="viewport标签"><a href="#viewport标签" class="headerlink" title="viewport标签"></a>viewport标签</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;</div></pre></td></tr></table></figure>
+<p>viewport标签专为移动端的设备而设计，以上是一个最常用的标签，它可以设置以下几个特性：</p>
+<ul>
+<li>width：viewport的宽度大小，如640，也可设置如device-width使其等于设备的宽度</li>
+<li>height：viewport的高度</li>
+<li>initial-scale：初始缩放比例</li>
+<li>maximum-scale：允许用户缩放的最大比例</li>
+<li>minimum-scale：允许用户缩放的最小比例</li>
+<li>user-scalable：是否允许手动缩放</li>
+</ul>
+<h3 id="视口单位"><a href="#视口单位" class="headerlink" title="视口单位"></a>视口单位</h3><ul>
+<li>vw，1vw等于视口宽度的1%</li>
+<li>vh：1vh等于视口高度的1%</li>
+<li>vmin：选取vw和vh中更小的一个</li>
+<li>vmax：选取vw和vh中更大的一个</li>
+</ul>
+<p>视口单位与<strong>%</strong>很像，但一个依赖于视口大小，一个依赖于元素的父级，既然在此提出来了，那么视口单位有哪些作用呢？没错，主要是用于适配的。</p>
+<p>在实际的项目中，通过将vw作为宽度，可以获取较适合的屏幕比例，高度不推荐使用，除非是设计师已经设计好了元素的比例，此时才应该使用vw单位作为宽度，在项目中通过任意一个预处理器的函数可将设计图上的像素计算为px，以下是我的stylus函数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">$mobile-screen = 640</div><div class="line">px2vw(px, device = $mobile-screen)</div><div class="line">  (px / device * 100)vw</div><div class="line">  </div><div class="line">px2vw(320) // 输出为50vw</div></pre></td></tr></table></figure>
+<h2 id="适配解决方案"><a href="#适配解决方案" class="headerlink" title="适配解决方案"></a>适配解决方案</h2><h3 id="手机调试"><a href="#手机调试" class="headerlink" title="手机调试"></a>手机调试</h3><p><strong>首选方案</strong>，即启动开发服务器的时候，将端口设置为0.0.0.0，然后连接同一网段的ip进行访问。若需要真机调试的话，若没有服务器的话，可以使用ngrok进行代理，有服务器推荐使用frp，当然，做微信相关的开发，请使用微信开发者工具。</p>
+<h3 id="REM的font-size设置为多少合适？"><a href="#REM的font-size设置为多少合适？" class="headerlink" title="REM的font-size设置为多少合适？"></a>REM的font-size设置为多少合适？</h3><p>常用浏览器的默认html的字体大小是16px，网上最流行将其设置为<code>font-size: 10px</code>或者是<code>font-size: 62.5%</code>，大家在使用rem前需要知道以下两点：</p>
+<ol>
+<li>以rem设置font-size，最小只能给元素设置为12px，若html的font-size为10px，那么给元素赋值<code>font-size: 1rem</code>，它的实际大小为10px。</li>
+<li>以rem设置width/height，最小也只能接受12px以上的font-size值，若元素宽为2rem，对应font-size为10px时，它的实际大小为24px。</li>
+</ol>
+<p>因此非常不建议设置为12px以下，这样会造成<strong>计算不精准</strong>；也不建议设置如100px的大小，若忘记给元素设置font-size，<strong>默认值会影响整个页面</strong>的美观；因此建议设置范围在<strong>12-20</strong>之间。</p>
+<h3 id="100-与100vw有什么区别？"><a href="#100-与100vw有什么区别？" class="headerlink" title="100%与100vw有什么区别？"></a>100%与100vw有什么区别？</h3><p>100vw是基于viewport的尺寸，会填满viewport，而100%占据全部可获得的空间。</p>
+<p>需要注意的是，vw会忽略滚动条所占据的宽度，假如在有纵向滚动条的情况下，将元素宽度设置为100vw，那么横向就会出现一个很小的滚动条，在这种情况下应该使用100%。具体原因是因为当html和body的overflow:auto时滚动条不会从视口中减去，而overflow:scroll时视口就会减去滚动条占据的空间，也不会出现滚动条了。</p>
+<h3 id="retina屏下border为1px的问题"><a href="#retina屏下border为1px的问题" class="headerlink" title="retina屏下border为1px的问题"></a>retina屏下border为1px的问题</h3><p>当在dpr为2的高清设计图看到border为1px时，其实设计师需要的是1个物理像素，转化为CSS像素就是0.5px，那么如何解决呢？在此简单总结为以下方法：</p>
+<p>一、通过JavaScript检测浏览器的dpr，从而给html添加一个类名，再到需要处理的样式的地方写一套权重更高的样式表。但是这样的解决方法并不兼容部分老设备，但我相信随着时间的推移，兼容性的问题也会大大减少吧。</p>
+<p>二、动态设置viewport标签，假设机型为phone5时，可设置为如下viewport，这样页面中所有border:1px都将缩小为0.5：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;meta name=&quot;viewport&quot; content=&quot;width=640,initial-scale=0.5,maximum-scale=0.5, minimum-scale=0.5,user-scalable=no&quot;&gt;</div></pre></td></tr></table></figure>
+<p>在实际使用时请参考某网站的JavaScript动态计算dpr、rem、viewport的方式。</p>
+<h2 id="开发工具"><a href="#开发工具" class="headerlink" title="开发工具"></a>开发工具</h2><p><a href="https://www.sven.de/dpi/" target="_blank" rel="external">移动设备分辨率与DPI集合</a></p>
+<p><a href="http://dpi.lv/" target="_blank" rel="external">设备dpi/dpr</a></p>
+<p><a href="https://github.com/inconshreveable/ngrok" target="_blank" rel="external">ngrok</a>，调试工具</p>
+<p><a href="https://github.com/fatedier/frp" target="_blank" rel="external">frp</a>，调试工具</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a href="http://www.cnblogs.com/lyzg/p/4877277.html" target="_blank" rel="external">从网易与淘宝的font-size思考前端设计稿与工作流 - 流云诸葛 - 博客园</a></p>
+<p><a href="https://www.w3cplus.com/css/viewports.html" target="_blank" rel="external">viewports剖析</a></p>
+<p><a href="https://webdesign.tutsplus.com/zh-hans/tutorials/comprehensive-guide-when-to-use-em-vs-rem--cms-23984" target="_blank" rel="external">综合指南: 何时使用 Em 与 Rem</a></p>
+<p><a href="http://www.ayqy.net/blog/%E5%AE%8C%E5%85%A8%E7%90%86%E8%A7%A3px-dpr-dpi-dip/" target="_blank" rel="external">完全理解px-dpr-dpi-dip</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;基础&quot;&gt;&lt;a href=&quot;#基础&quot; class=&quot;headerlink&quot; title=&quot;基础&quot;&gt;&lt;/a&gt;基础&lt;/h2&gt;&lt;h3 id=&quot;屏幕尺寸&quot;&gt;&lt;a href=&quot;#屏幕尺寸&quot; class=&quot;headerlink&quot; title=&quot;屏幕尺寸&quot;&gt;&lt;/a&gt;屏幕尺寸&lt;/h3&gt;&lt;p&gt;屏幕尺寸即屏幕对角线之间的距离，单位为英寸(inch)。单位换算如下：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;1 inch = 2.54 cm&lt;/li&gt;
+&lt;li&gt;1 cm = 0.3937inch&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;分辨率&quot;&gt;&lt;a href=&quot;#分辨率&quot; class=&quot;headerlink&quot; title=&quot;分辨率&quot;&gt;&lt;/a&gt;分辨率&lt;/h3&gt;
+    
+    </summary>
+    
+    
+      <category term="web" scheme="http://blog.vv13.cn/tags/web/"/>
+    
+  </entry>
   
   <entry>
     <title>d3-intro</title>
@@ -886,65 +1010,6 @@
       &lt;h4 id=&quot;简述&quot;&gt;&lt;a href=&quot;#简述&quot; class=&quot;headerlink&quot; title=&quot;简述&quot;&gt;&lt;/a&gt;简述&lt;/h4&gt;&lt;p&gt;有时候我们总想改造某些函数，保留它原有的功能与参数，追加新的操作在里面，若是自己写的函数，则直接改写函数即可，但假若是系统给定的函数与未知的参数，那么该怎么办呢？&lt;/p&gt;
 &lt;h4 id=&quot;示例&quot;&gt;&lt;a href=&quot;#示例&quot; class=&quot;headerlink&quot; title=&quot;示例&quot;&gt;&lt;/a&gt;示例&lt;/h4&gt;&lt;p&gt;假设下面有一个自定义函数splice, 它主要的功能是删除原数组指定索引元素，再将其返回：&lt;br&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;5&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;6&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;7&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;function splice(arrs, start, length) &amp;#123;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;  arrs.splice(start, length);&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;  return arrs;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&amp;#125;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;const arrs = [1,2,3];&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;splice(arrs, 1, 1); // 返回为：[1,3]&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
 &lt;p&gt;如果我们需要扩展splice，比如打印被删除的元素信息，则只需要进行如下更改：&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="js" scheme="http://blog.vv13.cn/tags/js/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>js变量作用域与垃圾回收</title>
-    <link href="http://blog.vv13.cn/2016/11/21/js%E5%8F%98%E9%87%8F%E7%9A%84%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/"/>
-    <id>http://blog.vv13.cn/2016/11/21/js变量的内存管理/</id>
-    <published>2016-11-20T16:26:18.000Z</published>
-    <updated>2018-02-03T14:47:44.265Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="栈内存与堆内存"><a href="#栈内存与堆内存" class="headerlink" title="栈内存与堆内存"></a>栈内存与堆内存</h2><p>js变量分为基本类型与引用类型, 所有变量都储存在函数方法体内,但根据类型的不同实际存储位置不一样.基本类型存储于栈内中,而引用类型存于堆内存中, 我们先来看看什么是堆内存与栈内存.初始化以下代码:</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> name = <span class="string">'某某某'</span>;</div><div class="line"><span class="keyword">const</span> age = <span class="number">22</span>;</div><div class="line"><span class="keyword">const</span> hasGf = <span class="literal">false</span>;</div><div class="line"><span class="keyword">const</span> obj = &#123;</div><div class="line">  test: <span class="number">123</span>,</div><div class="line">&#125;</div><div class="line"><span class="keyword">const</span> anotherObj = obj;</div></pre></td></tr></table></figure>
-<p>它们在内存中的结构如图：</p>
-<p><img src="/static/imgs/js变量的内存管理.jpg" alt=""></p>
-<ul>
-<li>栈内存(stack): 如int,string,number等基本变量,他们的大小是固定的,由系统分配栈存储空间</li>
-<li>堆内存(heap):对象的属性是动态扩展的,系统并不知道它栈多少空间,因此创建一个对象, 会在堆内存中开辟一个不固定的空间, 然后返回首地址指针给函数内的变量进行引用</li>
-</ul>
-<p>由上图即可看出, 对基本类型与引用类型进行值传递也会不一样:</p>
-<ul>
-<li>基本类型直接在栈内存中进行复制值</li>
-<li>引用类型只是将堆内存中的索引传递给变量,它们实际指向的是同一个对象</li>
-</ul>
-<p>既然涉及到变量的使用与改变, 难免会遇到栈溢出,堆溢出等问题,以下是一个递归的求和函数, 当调用多次,就会发生栈溢出:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">function test(n) &#123;</div><div class="line">  if (n === 1) &#123;</div><div class="line">    return 1;</div><div class="line">  &#125;</div><div class="line">  return n + test(n - 1);</div><div class="line">&#125;</div><div class="line">test(10000); // 50005000</div><div class="line">test(100000); // Uncaught RangeError: Maximum call stack size exceeded(…)</div></pre></td></tr></table></figure>
-<p>正是因为每个函数栈中限制了大小, 而每次递归调用都会保存着当前函数栈的信息,等待下一函数执行完返回结果, 执行test函数5次,栈空间变化为:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">test(5)</div><div class="line">5 + test(4)</div><div class="line">5 + (4 + test(3))</div><div class="line">5 + (4 + (3 + test(2)))</div><div class="line">5 + (4 + (3 + (2 + test(1))))</div><div class="line">5 + (4 + (3 + (2 + 1)))</div><div class="line">5 + (4 + (3 + 3))</div><div class="line">5 + (4 + 6)</div><div class="line">5 + 10</div><div class="line">15</div></pre></td></tr></table></figure>
-<p>正由于每递归一次都会在内存中形成一个调用帧,于是就会形成栈溢出,我们可用尾递归对栈调用进行优化,尾递归的含义为:在函数尾部调用函数本身,因为只调用了自身,当前栈大多数局部变量都不需要进行保存,因此就不会出现栈溢出了,以下是用尾递归进行实现:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">function test(n, count) &#123;</div><div class="line">  if (n === 0) &#123;</div><div class="line">    return count;</div><div class="line">  &#125;</div><div class="line">  return test(n - 1, count + n);</div><div class="line">&#125;</div><div class="line">test(100000); // Uncaught RangeError: Maximum call stack size exceeded(…)</div></pre></td></tr></table></figure>
-<p>上述还是会出现栈溢出，究其结果是因为es6没有进行尾递归优化：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Temporarily Removed in Babel 6</div><div class="line">Only explicit self referencing tail recursion was supported due to the complexity and performance impact of supporting tail calls globally. Removed due to other bugs and will be re-implemented.</div></pre></td></tr></table></figure></p>
-<p>那么为了消除栈溢出,只能使用另一种方法了:蹦床(Trampolining), 蹦床函数会将函数的递归调用转换成循环:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">function trampoline(f) &#123;</div><div class="line">    while (f &amp;&amp; f instanceof Function) &#123;</div><div class="line">        f = f();</div><div class="line">    &#125;</div><div class="line">    return f;</div><div class="line">&#125;</div><div class="line"></div><div class="line">function test(x, count) &#123;</div><div class="line">    function recur(x, count) &#123;</div><div class="line">        if (x &gt; 0) &#123;</div><div class="line">          return recur.bind(null, x - 1, count + x);</div><div class="line">        &#125; else &#123;</div><div class="line">          return count;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    return trampoline(recur.bind(null, x, count));</div><div class="line">&#125;</div><div class="line"></div><div class="line">console.log(test(100000, 0)); // 5000050000</div></pre></td></tr></table></figure>
-<h2 id="内存泄漏"><a href="#内存泄漏" class="headerlink" title="内存泄漏"></a>内存泄漏</h2><p>javascript具有自动垃圾回收机制(GC),当变量所属的函数执行结束后,就会等待垃圾回收器对其内存进行释放,回收器主要有使用的是标记清楚策略,核心概念为：</p>
-<ol>
-<li>遍历所有可访问的对象。</li>
-<li>回收已不可访问的对象。</li>
-</ol>
-<p>因此我们应当特别小心那些造成作用域改变的对象或者没有留意到对象的引用,这样它们的内存就会得不到释放,常驻于内存影响性能.</p>
-<h4 id="闭包拾遗"><a href="#闭包拾遗" class="headerlink" title="闭包拾遗"></a>闭包拾遗</h4><p>通过闭包,内部函数可以访问外部函数的变量,要特别小心在闭包内引用了外部函数的变量后,将内部函数返回出去时, 由于内部函数依赖外部函数的变量,因此不会失去引用而被垃圾回收机制释放掉,直到指向内部函数的指针为null:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">function outerFn() &#123;</div><div class="line">  var a = 0;</div><div class="line">  function innerFn() &#123;</div><div class="line">    console.log(a++);</div><div class="line">  &#125;</div><div class="line">  return innerFn;</div><div class="line">&#125;</div><div class="line"></div><div class="line">var fn = outerFn();</div><div class="line">fn(); // 0</div><div class="line">fn(); // 1</div></pre></td></tr></table></figure>
-<h4 id="在函数内创建全局变量"><a href="#在函数内创建全局变量" class="headerlink" title="在函数内创建全局变量"></a>在函数内创建全局变量</h4><p>若在方法内不带var或let等关键字访问变量,若变量不存在的画就会创建一个全局变量, 从而造成无法释放掉内存,也有可能是构造函数自身进行了调用,this就会指向全局对象:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">function Test() &#123;</div><div class="line">  hehe = 123;</div><div class="line">  this.a = 1;</div><div class="line">&#125;</div><div class="line">Test();</div><div class="line">console.log(hehe, a); // 123, 1</div></pre></td></tr></table></figure>
-<h4 id="循环引用"><a href="#循环引用" class="headerlink" title="循环引用"></a>循环引用</h4><p>如果dom元素操作不当, 很容易造成非常规的内存占用:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">function assignHandler () &#123;</div><div class="line">  var element = document.getElementById(&apos;someElement&apos;);</div><div class="line">  element.onclick = function () &#123;</div><div class="line">    alert(element.id);</div><div class="line">  &#125;;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>由于匿名函数引用了element, 因此element并不会被垃圾回收器回收,在代码中不要直接通过对象获取属性:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">function assignHandler () &#123;</div><div class="line">  var element = document.getElementById(&apos;someElement&apos;);</div><div class="line">  var id = element.id;</div><div class="line">  element.onclick = function () &#123;</div><div class="line">    alert(id);</div><div class="line">  &#125;;</div><div class="line">  element = null;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;栈内存与堆内存&quot;&gt;&lt;a href=&quot;#栈内存与堆内存&quot; class=&quot;headerlink&quot; title=&quot;栈内存与堆内存&quot;&gt;&lt;/a&gt;栈内存与堆内存&lt;/h2&gt;&lt;p&gt;js变量分为基本类型与引用类型, 所有变量都储存在函数方法体内,但根据类型的不同实际存储位置不一样.基本类型存储于栈内中,而引用类型存于堆内存中, 我们先来看看什么是堆内存与栈内存.初始化以下代码:&lt;/p&gt;
-&lt;figure class=&quot;highlight javascript&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;5&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;6&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;7&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;const&lt;/span&gt; name = &lt;span class=&quot;string&quot;&gt;&#39;某某某&#39;&lt;/span&gt;;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;const&lt;/span&gt; age = &lt;span class=&quot;number&quot;&gt;22&lt;/span&gt;;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;const&lt;/span&gt; hasGf = &lt;span class=&quot;literal&quot;&gt;false&lt;/span&gt;;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;const&lt;/span&gt; obj = &amp;#123;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;  test: &lt;span class=&quot;number&quot;&gt;123&lt;/span&gt;,&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&amp;#125;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;const&lt;/span&gt; anotherObj = obj;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;它们在内存中的结构如图：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;/static/imgs/js变量的内存管理.jpg&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
     
     </summary>
     

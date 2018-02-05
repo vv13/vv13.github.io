@@ -2,6 +2,7 @@ html,
 body {
   padding: 0;
   margin: 0;
+  line-height: 1.5;
 }
 html {
   font-size: 62.5%;
@@ -18,7 +19,7 @@ a {
 .recent-post-item {
   margin: 40px auto 0;
   padding-bottom: 40px;
-  font-size: 1.4rem;
+  font-size: 1.5rem;
 }
 .recent-post-item a {
   color: $highlight;
@@ -38,7 +39,7 @@ a {
   color: $highlight;
 }
 .recent-post-item .post-excerpt {
-  color: $hint;
+  color: $txt;
 }
 .recent-post-item .post-excerpt ul {
   overflow: auto;
@@ -114,18 +115,37 @@ a {
 #tag .article-list-item .post-title:hover {
   color: $hover;
 }
-.markdown-body {
+#content-outer .markdown-body {
   box-sizing: border-box;
   min-width: 200px;
   max-width: 980px;
   margin: 0 auto;
   padding-top: 45px;
+  color: $txt;
 }
-.markdown-body a {
-  color: rgba(98,155,220,0.84) !important;
+#content-outer .markdown-body a {
+  color: $highlight;
 }
-.markdown-body pre,
-.markdown-body table {
+#content-outer .markdown-body h1 {
+  color: $title;
+}
+#content-outer .markdown-body h2 {
+  margin-top: 50px;
+  color: $title;
+}
+#content-outer .markdown-body h3 {
+  margin-top: 40px;
+  color: $level2;
+}
+#content-outer .markdown-body h4 {
+  margin-top: 30px;
+  color: $level2;
+}
+#content-outer .markdown-body img {
+  margin: 10px;
+}
+#content-outer .markdown-body pre,
+#content-outer .markdown-body table {
   background-color: #014243 !important;
   color: #949ca0;
   border-radius: 5px;

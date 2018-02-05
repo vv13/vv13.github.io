@@ -1,8 +1,4 @@
-#post {
-  color: $hint;
-  font-size: 1.5rem;
-}
-#post .article-title {
+.article-title {
   font-size: 4.5rem;
   color: $title;
 }
