@@ -2,13 +2,14 @@ html,
 body {
   padding: 0;
   margin: 0;
+  line-height: 1.5;
 }
 html {
   font-size: 62.5%;
   background: #1d1f21;
 }
 a {
-  color: #c6c7c7;
+  color: #ccffb6;
 }
 #content-outer {
   width: 80%;
@@ -18,27 +19,27 @@ a {
 .recent-post-item {
   margin: 40px auto 0;
   padding-bottom: 40px;
-  font-size: 1.4rem;
+  font-size: 1.5rem;
 }
 .recent-post-item a {
-  color: #c6c7c7;
+  color: #ccffb6;
 }
 .recent-post-item .post-title {
   font-size: 3.6rem;
-  color: rgba(255,255,255,0.6);
+  color: #2bbc8a;
   text-decoration: none;
   cursor: pointer;
 }
 .recent-post-item .post-title:hover {
   color: #c4edde;
-  border-bottom: 1px solid rgba(255,255,255,0.6);
+  border-bottom: 1px solid #2bbc8a;
 }
 .recent-post-item .post-time {
   font-size: 1.3rem;
-  color: #c6c7c7;
+  color: #ccffb6;
 }
 .recent-post-item .post-excerpt {
-  color: #777d81;
+  color: #c9cacc;
 }
 .recent-post-item .post-excerpt ul {
   overflow: auto;
@@ -90,7 +91,7 @@ a {
 }
 #tag h1 {
   font-size: 3rem;
-  color: rgba(255,255,255,0.6);
+  color: #2bbc8a;
 }
 #tag h1 .iconfont {
   font-size: 30px;
@@ -114,18 +115,37 @@ a {
 #tag .article-list-item .post-title:hover {
   color: #c4edde;
 }
-.markdown-body {
+#content-outer .markdown-body {
   box-sizing: border-box;
   min-width: 200px;
   max-width: 980px;
   margin: 0 auto;
   padding-top: 45px;
+  color: #c9cacc;
 }
-.markdown-body a {
-  color: rgba(98,155,220,0.84) !important;
+#content-outer .markdown-body a {
+  color: #ccffb6;
 }
-.markdown-body pre,
-.markdown-body table {
+#content-outer .markdown-body h1 {
+  color: #2bbc8a;
+}
+#content-outer .markdown-body h2 {
+  margin-top: 50px;
+  color: #2bbc8a;
+}
+#content-outer .markdown-body h3 {
+  margin-top: 40px;
+  color: #eee;
+}
+#content-outer .markdown-body h4 {
+  margin-top: 30px;
+  color: #eee;
+}
+#content-outer .markdown-body img {
+  margin: 10px;
+}
+#content-outer .markdown-body pre,
+#content-outer .markdown-body table {
   background-color: #014243 !important;
   color: #949ca0;
   border-radius: 5px;
@@ -172,13 +192,9 @@ figure .code {
 #pagination .prev i {
   font-size: 24px;
 }
-#post {
-  color: #777d81;
-  font-size: 1.5rem;
-}
-#post .article-title {
+.article-title {
   font-size: 4.5rem;
-  color: rgba(255,255,255,0.6);
+  color: #2bbc8a;
 }
 .side-menu {
   position: fixed;
@@ -204,7 +220,7 @@ figure .code {
 }
 .side-menu .shortcut .iconfont {
   font-size: 30px;
-  color: rgba(255,255,255,0.6);
+  color: #2bbc8a;
 }
 #goTop {
   display: none;

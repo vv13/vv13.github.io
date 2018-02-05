@@ -6,10 +6,10 @@ body {
 }
 html {
   font-size: 62.5%;
-  background: $bg;
+  background: #1d1f21;
 }
 a {
-  color: $highlight;
+  color: #ccffb6;
 }
 #content-outer {
   width: 80%;
@@ -22,24 +22,24 @@ a {
   font-size: 1.5rem;
 }
 .recent-post-item a {
-  color: $highlight;
+  color: #ccffb6;
 }
 .recent-post-item .post-title {
   font-size: 3.6rem;
-  color: $title;
+  color: #2bbc8a;
   text-decoration: none;
   cursor: pointer;
 }
 .recent-post-item .post-title:hover {
-  color: $hover;
-  border-bottom: 1px solid $title;
+  color: #c4edde;
+  border-bottom: 1px solid #2bbc8a;
 }
 .recent-post-item .post-time {
   font-size: 1.3rem;
-  color: $highlight;
+  color: #ccffb6;
 }
 .recent-post-item .post-excerpt {
-  color: $txt;
+  color: #c9cacc;
 }
 .recent-post-item .post-excerpt ul {
   overflow: auto;
@@ -61,7 +61,7 @@ a {
   height: 50px;
   line-height: 50px;
   font-size: 1.4rem;
-  color: $hint;
+  color: #777d81;
   display: flex;
   align-content: center;
   justify-content: space-between;
@@ -91,7 +91,7 @@ a {
 }
 #tag h1 {
   font-size: 3rem;
-  color: $title;
+  color: #2bbc8a;
 }
 #tag h1 .iconfont {
   font-size: 30px;
@@ -102,7 +102,7 @@ a {
   font-size: 1.5rem;
 }
 #tag .article-list-item .item-time {
-  color: $hint;
+  color: #777d81;
   display: inline-block;
   min-width: 100px;
   margin-right: 20px;
@@ -113,7 +113,7 @@ a {
   text-decoration: none;
 }
 #tag .article-list-item .post-title:hover {
-  color: $hover;
+  color: #c4edde;
 }
 #content-outer .markdown-body {
   box-sizing: border-box;
@@ -121,25 +121,25 @@ a {
   max-width: 980px;
   margin: 0 auto;
   padding-top: 45px;
-  color: $txt;
+  color: #c9cacc;
 }
 #content-outer .markdown-body a {
-  color: $highlight;
+  color: #ccffb6;
 }
 #content-outer .markdown-body h1 {
-  color: $title;
+  color: #2bbc8a;
 }
 #content-outer .markdown-body h2 {
   margin-top: 50px;
-  color: $title;
+  color: #2bbc8a;
 }
 #content-outer .markdown-body h3 {
   margin-top: 40px;
-  color: $level2;
+  color: #eee;
 }
 #content-outer .markdown-body h4 {
   margin-top: 30px;
-  color: $level2;
+  color: #eee;
 }
 #content-outer .markdown-body img {
   margin: 10px;
