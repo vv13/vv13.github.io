@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>vv13&#39;s blog  | 理解javascript线程</title>
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="generator" content="Hugo 0.36" />
+    
+    
+      <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+    
+
+    <link href='dist/main.css' rel='stylesheet' type="text/css" />
+    
+      
+    
+
+    
+
+    <meta property="og:title" content="理解javascript线程" />
+<meta property="og:description" content="进程和线程  进程：系统资源分配与组织的最小单位，具备独立功能的程序即可成为一个进程，它有自己的内存空间 线程：cpu调度和分派(运行)的最小单位，线程是一个进程的实体，可以共享进程独占的资源，自己只拥有一点在运行中必不可少的资源(程序计数器、寄存器、栈)  线程的作用：
+ 大多数程序需要多个线程同步或互斥的并行完成工作，将工作分化到线程中简化了编程模型 线程很轻量，创建与销毁消耗的资源小 线程提高了cpu利用率，避免了如等待用户输入、异步资源请求等一系列阻塞操作  根据以上概念，多核cpu可以同时运行多个线程，那可以运行多个进程吗？普遍的答案是cpu只能同时运行一个线程，它是靠时间片轮转来实现的伪多进程，以下有一个关于利用多核心cpu的一个解释：" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3javascript%E7%BA%BF%E7%A8%8B/" />
+
+
+
+<meta property="article:published_time" content="2017-02-09T00:00:00&#43;00:00"/>
+
+<meta property="article:modified_time" content="2017-02-09T00:00:00&#43;00:00"/>
+
+
+
+
+
+
+
+
+
+
+
+<meta itemprop="name" content="理解javascript线程">
+<meta itemprop="description" content="进程和线程  进程：系统资源分配与组织的最小单位，具备独立功能的程序即可成为一个进程，它有自己的内存空间 线程：cpu调度和分派(运行)的最小单位，线程是一个进程的实体，可以共享进程独占的资源，自己只拥有一点在运行中必不可少的资源(程序计数器、寄存器、栈)  线程的作用：
+ 大多数程序需要多个线程同步或互斥的并行完成工作，将工作分化到线程中简化了编程模型 线程很轻量，创建与销毁消耗的资源小 线程提高了cpu利用率，避免了如等待用户输入、异步资源请求等一系列阻塞操作  根据以上概念，多核cpu可以同时运行多个线程，那可以运行多个进程吗？普遍的答案是cpu只能同时运行一个线程，它是靠时间片轮转来实现的伪多进程，以下有一个关于利用多核心cpu的一个解释：">
+
+
+<meta itemprop="datePublished" content="2017-02-09T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2017-02-09T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="58">
+
+
+
+<meta itemprop="keywords" content="js," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="理解javascript线程"/>
+<meta name="twitter:description" content="进程和线程  进程：系统资源分配与组织的最小单位，具备独立功能的程序即可成为一个进程，它有自己的内存空间 线程：cpu调度和分派(运行)的最小单位，线程是一个进程的实体，可以共享进程独占的资源，自己只拥有一点在运行中必不可少的资源(程序计数器、寄存器、栈)  线程的作用：
+ 大多数程序需要多个线程同步或互斥的并行完成工作，将工作分化到线程中简化了编程模型 线程很轻量，创建与销毁消耗的资源小 线程提高了cpu利用率，避免了如等待用户输入、异步资源请求等一系列阻塞操作  根据以上概念，多核cpu可以同时运行多个线程，那可以运行多个进程吗？普遍的答案是cpu只能同时运行一个线程，它是靠时间片轮转来实现的伪多进程，以下有一个关于利用多核心cpu的一个解释："/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+    
+
+  <header>
+    <div class="bg-black">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l justify-between items-center center">
+    <a href="" class="f3 fw2 hover-white no-underline white-90 dib">
+      vv13&#39;s blog
+    </a>
+    <div class="flex-l items-center">
+      
+      
+
+
+
+
+
+
+
+
+    </div>
+  </div>
+</nav>
+
+    </div>
+  </header>
+
+
+    <main class="pb7" role="main">
+      
+  <div class="flex-l mt2 mw8 center">
+    <article class="center cf pv5 ph3 ph4-ns mw7">
+      <header>
+        <p class="f6 b helvetica tracked">
+          POSTS
+        </p>
+        <h1 class="f1">
+          理解javascript线程
+        </h1>
+      </header>
+      <div class="nested-copy-line-height lh-copy f4 nested-links nested-img mid-gray">
+        
+
+<h2 id="进程和线程">进程和线程</h2>
+
+<ul>
+<li>进程：系统资源分配与组织的最小单位，具备独立功能的程序即可成为一个进程，它有自己的内存空间</li>
+<li>线程：cpu调度和分派(运行)的最小单位，线程是一个进程的实体，可以共享进程独占的资源，自己只拥有一点在运行中必不可少的资源(程序计数器、寄存器、栈)</li>
+</ul>
+
+<p>线程的作用：</p>
+
+<ol>
+<li>大多数程序需要多个线程同步或互斥的并行完成工作，将工作分化到线程中简化了编程模型</li>
+<li>线程很轻量，创建与销毁消耗的资源小</li>
+<li>线程提高了cpu利用率，避免了如等待用户输入、异步资源请求等一系列阻塞操作</li>
+</ol>
+
+<p>根据以上概念，多核cpu可以同时运行多个线程，那可以运行多个进程吗？普遍的答案是cpu只能同时运行一个线程，它是靠时间片轮转来实现的伪多进程，以下有一个关于利用多核心cpu的一个解释：</p>
+
+<pre><code>最早 UNIX 的调度是以 “进程” 为最小调度单位，那个时候还没有线程的概念。线程有两种，一种是 “用户态线程” ，对内核不可见，内核不可以调度，现在一般叫做纤程或协程。另一种是 “内核态线程”，由内核调度，也称作轻量进程 LWP 。现在说的线程，一般不特殊指定，都是内核线程。
+
+能不能利用多核的关键是能不能被内核调度，既然内核态线程可以被调度，自然可以利用多核。
+
+另外只要资源足够（内存） CPU 可以 hold 住任意多的进程或线程，这与 CPU 的核数无关。你在这里指的应该是 “运行” 。
+</code></pre>
+
+<h2 id="javascript单线程机制">javascript单线程机制</h2>
+
+<p>javascipt语言最大的特点就是单线程，同一时间只有一段代码在执行，这种语言有一个共同的特点：基于事件驱动。它虽然是单线程的，但是所在的平台肯定是异构的：</p>
+
+<ol>
+<li>在浏览器中，界面渲染线程负责渲染、浏览器事件处理器、异步请求线程等，他们会配合javascript实现各种异步操作。</li>
+<li>再node种，libuv库负责node api的执行，它将不同的任务分配给不同的线程，形成一个event loop，以异步的方式将任务的执行结果返回给V8引擎。</li>
+</ol>
+
+<p>所以说，javascript执行是单线程的，方法是异步的，应用是多线程的。</p>
+
+<h2 id="任务队列">任务队列</h2>
+
+<p>javascript核心为单线程机制，所有任务执行都需要按照顺序进行排队，如果前一个任务耗时长，后一个任务就需要等待，因此那些耗时较长的任务就被javascript的作者设计成了异步任务，任务队列正是存放异步任务的地方。</p>
+
+<p>同步任务指在主线程中执行的任务栈，它会形成一个执行栈，像堆积木一样存放，实现层层调用，若有一个任务失败，则整个程序就会失败。异步任务就放到了任务队列里，等到异步任务成功响应(io输入读取完成、异步请求等待到服务器的响应)，任务队列会通知主线程执行预先设定好的回调函数。</p>
+
+<p>任务队列还有时间的概念，通过定时器setTimeout()和setInterval()这两个函数就可以在任务队列中规定多少事件后执行，它们调用后会返回定时器id,通过clearTimeout与clearInterval可以取消。</p>
+
+<p>关于定时器的用法，常见的如<code>setTimeout(fn, 0);</code>，需要注意的是它不会立即执行，而是需要等到主进行这一次所有同步任务执行结束后，才会去读取任务队列的通知，执行相应的定时器方法。</p>
+
+<h2 id="事件循环-event-loop">事件循环(Event Loop)</h2>
+
+<p><img src="http://i4.buimg.com/567571/eadf3db4bf455904.png" alt="image" />
+Event Loop是一个程序结构，用于等待和发送消息事件，它是javascript单线程的重要处理机制，简单说就是将其他线程的资源取回主线程，执行事先设定的回调函数。</p>
+
+<p>主线程会不断的从消息队列中读取事件，这个过程是不断循环的，因此称之为事件循环，事件循环经常用以下方式实现:</p>
+
+<pre><code class="language-javascript">while (queue.waitForMessage()) {
+    queue.processNextMessage()
+}
+</code></pre>
+
+<p>而消息队列是一个先进先出的队列，当有异步操作完成或事件点击产生时，回调函数会作为消息进入到消息队列，等待主线程的读取与执行。</p>
+
+<h2 id="web-worker">Web Worker</h2>
+
+<p>随着页面越来越复杂，html5制定了新的标准，而web worker的到来就是为浏览器端提供了多线程的编程能力，允许主线程将一些高计算或高延迟的工作分配给子线程。</p>
+
+<p>Web Worker所执行的代码是在另一个作用域中，与当前代码不共享作用域，也无法访问dom，而且在父子线程中通讯时，传值是被序列化后复制到Worker中的，而不是直接引用传递，这样足以避免子线程影响父线程。</p>
+
+      </div>
+    </article>
+    <aside class="ph3 mt2 mt6-ns">
+      
+
+
+
+
+
+
+
+  <div class="bg-light-gray pa3">
+    <ul>
+      <li class="list b mb3">
+        20 More Posts
+      </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/posts/css_adapt/" class="link ph2 pv2 db black">
+            去他妈的适配
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/posts/d3-intro/" class="link ph2 pv2 db black">
+            d3-intro
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/posts/bfc-intro/" class="link ph2 pv2 db black">
+            css的BFC特性
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/posts/jenkins-deploy/" class="link ph2 pv2 db black">
+            jenkins部署
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/posts/js-event-trigger/" class="link ph2 pv2 db black">
+            js事件触发机制
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/posts/throttle/" class="link ph2 pv2 db black">
+            什么是函数节流
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/posts/%E7%AE%80%E5%8E%86%E4%B8%AD%E7%9A%84star%E5%8E%9F%E5%88%99/" class="link ph2 pv2 db black">
+            简历中的STAR原则
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/posts/%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B%E4%B8%AD%E7%9A%84thunk%E5%87%BD%E6%95%B0/" class="link ph2 pv2 db black">
+            异步编程中的thunk函数
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/posts/vue%E4%B8%AD%E5%A6%82%E4%BD%95%E8%87%AA%E5%AE%9A%E4%B9%89v-model/" class="link ph2 pv2 db black">
+            vue中如何自定义v-model
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/posts/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3javascript%E7%BA%BF%E7%A8%8B/" class="link ph2 pv2 db black o-50">
+            理解javascript线程
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/posts/flex%E5%B8%83%E5%B1%80/" class="link ph2 pv2 db black">
+            flex布局
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/posts/bem%E8%A7%84%E8%8C%83/" class="link ph2 pv2 db black">
+            BEM规范
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/posts/%E6%B1%82%E8%B4%A8%E6%95%B0%E7%9A%84%E5%87%A0%E7%A7%8D%E6%96%B9%E6%B3%95/" class="link ph2 pv2 db black">
+            python求质数的几种方法
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/posts/%E5%86%92%E6%B3%A1%E9%80%89%E6%8B%A9%E4%B8%8E%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F/" class="link ph2 pv2 db black">
+            几个简单的排序-js描述
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/posts/nodejs%E4%B8%ADexports%E4%B8%8Emodule-exports%E7%9A%84%E5%8C%BA%E5%88%AB/" class="link ph2 pv2 db black">
+            nodejs中exports与module.exports的区别
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/posts/python%E5%8F%98%E9%87%8F%E4%BD%9C%E7%94%A8%E5%9F%9F/" class="link ph2 pv2 db black">
+            python变量作用域
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/posts/bom%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%BA%94%E7%94%A8/" class="link ph2 pv2 db black">
+            BOM对象的应用
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/posts/git-tricks/" class="link ph2 pv2 db black">
+            git实用命令技巧
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/posts/js%E4%BB%A3%E7%90%86%E5%87%BD%E6%95%B0%E6%8A%80%E5%B7%A7/" class="link ph2 pv2 db black">
+            js代理函数技巧
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/posts/js%E5%8F%98%E9%87%8F%E7%94%B3%E6%98%8E%E8%A7%A3%E6%9E%90/" class="link ph2 pv2 db black">
+            js变量申明解析
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/posts/js%E5%8F%98%E9%87%8F%E7%9A%84%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" class="link ph2 pv2 db black">
+            js变量作用域与垃圾回收
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+    </aside>
+  </div>
+
+    </main>
+    <footer class="bg-near-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="" >
+    &copy; 2018 vv13&#39;s blog
+  </a>
+  
+
+
+
+
+
+
+
+
+  </div>
+</footer>
+
+    <script src="dist/app.bundle.js" async></script>
+
+  </body>
+</html>

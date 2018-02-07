@@ -21,33 +21,33 @@
     
 
     
-      <link href="/tags/python/index.xml" rel="alternate" type="application/rss+xml" title="vv13&#39;s blog" />
-      <link href="/tags/python/index.xml" rel="feed" type="application/rss+xml" title="vv13&#39;s blog" />
+      <link href="/posts/index.xml" rel="alternate" type="application/rss+xml" title="vv13&#39;s blog" />
+      <link href="/posts/index.xml" rel="feed" type="application/rss+xml" title="vv13&#39;s blog" />
     
 
-    <meta property="og:title" content="Python" />
+    <meta property="og:title" content="Posts" />
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="/tags/python/" />
+<meta property="og:url" content="/posts/" />
 
 
 
-<meta property="og:updated_time" content="2016-12-26T00:00:00&#43;00:00"/>
-
-
-
-
+<meta property="og:updated_time" content="2016-11-21T00:00:00&#43;00:00"/>
 
 
 
 
 
 
-<meta itemprop="name" content="Python">
+
+
+
+
+<meta itemprop="name" content="Posts">
 <meta itemprop="description" content="">
 
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Python"/>
+<meta name="twitter:title" content="Posts"/>
 <meta name="twitter:description" content=""/>
 
   </head>
@@ -82,7 +82,7 @@
 
       <div class="tc-l pv4 pv6-l ph3 ph4-ns">
         <h1 class="f2 f-subheadline-l fw2 white-90 mb0 lh-title">
-          Python
+          Posts
         </h1>
         
       </div>
@@ -94,7 +94,7 @@
       
   <article class="cf pa3 pa4-m pa4-l">
     <div class="measure-wide-l center f4 lh-copy nested-copy-line-height nested-links nested-img mid-gray">
-      <p>Below you will find pages that utilize the taxonomy term “Python”</p>
+      
     </div>
   </article>
   <div class="mw8 center">
@@ -106,33 +106,13 @@
   <div class="bg-white mb3 pa4 gray overflow-hidden">
     <span class="f6 db">Posts</span>
     <h1 class="f3 near-black">
-      <a href="/posts/%E6%B1%82%E8%B4%A8%E6%95%B0%E7%9A%84%E5%87%A0%E7%A7%8D%E6%96%B9%E6%B3%95/" class="link black dim">
-        python求质数的几种方法
+      <a href="/posts/js%E5%8F%98%E9%87%8F%E7%9A%84%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" class="link black dim">
+        js变量作用域与垃圾回收
       </a>
     </h1>
     <div class="nested-links f5 lh-copy nested-copy-line-height">
-      今天偶然在博客上上看到有人提求质素的几种境界,在此用python进行实现代码,并进行简单的说明.
-我们将要实现函数的功能是输入一个数N,能把小于N的质数个数打印出来,并计算出所耗时间.
-境界1 我们采用试除法,意思就是将比N小的符合要求的每一个数都除以它,若都无法整除则N为质数,这也是我们能想到的最简单的方法,我们可以从j的范围进行优化一下,很容易想到j的范围可以取2~N/2. 代码如下:
-def f1(num): # 2也是质数,之后程序从3开始判断 count = 1 for i in range(3, num): b = True for j in range(2, i/2 + 1): if i % j == 0: b = False break if b: count += 1 return count f1(100000) # 耗时35.
-    </div>
-  </div>
-</div>
-
-        </div>
-      
-        <div class="relative w-100  mb4 bg-white">
-          <div class="relative w-100 mb4 bg-white nested-copy-line-height">
-  <div class="bg-white mb3 pa4 gray overflow-hidden">
-    <span class="f6 db">Posts</span>
-    <h1 class="f3 near-black">
-      <a href="/posts/python%E5%8F%98%E9%87%8F%E4%BD%9C%E7%94%A8%E5%9F%9F/" class="link black dim">
-        python变量作用域
-      </a>
-    </h1>
-    <div class="nested-links f5 lh-copy nested-copy-line-height">
-      class比作整个屋子，def为卧室，class外面的部分就是小区环境。
-首先测试房子(class)与公共设施变量(globals)之间的关系 # encoding: utf-8 PUBLIC_FACILITIES = u&quot;公共厕所&quot; class House(): print PUBLIC_FACILITIES PUBLIC_FACILITIES = '改造' if __name__ == '__main__': test = House() print PUBLIC_FACILITIES  测试结果：
+      栈内存与堆内存 js变量分为基本类型与引用类型, 所有变量都储存在函数方法体内,但根据类型的不同实际存储位置不一样.基本类型存储于栈内中,而引用类型存于堆内存中, 我们先来看看什么是堆内存与栈内存.初始化以下代码:
+const name = '某某某'; const age = 22; const hasGf = false; const obj = { test: 123, } const anotherObj = obj;  它们在内存中的结构如图：
     </div>
   </div>
 </div>
@@ -140,6 +120,67 @@ def f1(num): # 2也是质数,之后程序从3开始判断 count = 1 for i in ran
         </div>
       
     </section>
+  
+
+<ul class="pagination">
+    
+    <li>
+        <a href="/posts/" aria-label="First"><span aria-hidden="true">&laquo;&laquo;</span></a>
+    </li>
+    
+    <li
+    >
+    <a href="/posts/page/2/" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+    </li>
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    <li
+    ><a href="/posts/">1</a></li>
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    <li
+    ><a href="/posts/page/2/">2</a></li>
+    
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    <li
+    class="active"><a href="/posts/page/3/">3</a></li>
+    
+    
+    <li
+    class="disabled">
+    <a href="" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+    </li>
+    
+    <li>
+        <a href="/posts/page/3/" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
+    </li>
+    
+</ul>
+
   </div>
 
     </main>

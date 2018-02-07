@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>vv13&#39;s blog  | d3-intro</title>
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="generator" content="Hugo 0.36" />
+    
+    
+      <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+    
+
+    <link href='dist/main.css' rel='stylesheet' type="text/css" />
+    
+      
+    
+
+    
+
+    <meta property="og:title" content="d3-intro" />
+<meta property="og:description" content="D3.js是一个JavaScript库，它可以通过数据来操作文档。D3可以通过使用HTML、SVG和CSS把数据鲜活形象地展现出来。D3严格遵循Web标准，因而可以让你的程序轻松兼容现代主流浏览器并避免对特定框架的依赖。同时，它提供了强大的可视化组件，可以让使用者以数据驱动的方式去操作DOM。
+D3允许将数据绑定到DOM中，然后基于数据驱动去变化DOM。例如可以用数字数组来生成html的表格，或者使用相同数据创建一个平滑响应的SVG条形图。
+选择器 使用W3C DOM API十分繁琐，因此D3使用selections，一种声明式的方式来随意的操纵节点。
+例如原dom有操作方式如下：
+var paragraphs = document." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/d3-intro/" />
+
+
+
+<meta property="article:published_time" content="2017-10-24T00:00:00&#43;00:00"/>
+
+<meta property="article:modified_time" content="2017-10-24T00:00:00&#43;00:00"/>
+
+
+
+
+
+
+
+
+
+
+
+<meta itemprop="name" content="d3-intro">
+<meta itemprop="description" content="D3.js是一个JavaScript库，它可以通过数据来操作文档。D3可以通过使用HTML、SVG和CSS把数据鲜活形象地展现出来。D3严格遵循Web标准，因而可以让你的程序轻松兼容现代主流浏览器并避免对特定框架的依赖。同时，它提供了强大的可视化组件，可以让使用者以数据驱动的方式去操作DOM。
+D3允许将数据绑定到DOM中，然后基于数据驱动去变化DOM。例如可以用数字数组来生成html的表格，或者使用相同数据创建一个平滑响应的SVG条形图。
+选择器 使用W3C DOM API十分繁琐，因此D3使用selections，一种声明式的方式来随意的操纵节点。
+例如原dom有操作方式如下：
+var paragraphs = document.">
+
+
+<meta itemprop="datePublished" content="2017-10-24T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2017-10-24T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="155">
+
+
+
+<meta itemprop="keywords" content="web," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="d3-intro"/>
+<meta name="twitter:description" content="D3.js是一个JavaScript库，它可以通过数据来操作文档。D3可以通过使用HTML、SVG和CSS把数据鲜活形象地展现出来。D3严格遵循Web标准，因而可以让你的程序轻松兼容现代主流浏览器并避免对特定框架的依赖。同时，它提供了强大的可视化组件，可以让使用者以数据驱动的方式去操作DOM。
+D3允许将数据绑定到DOM中，然后基于数据驱动去变化DOM。例如可以用数字数组来生成html的表格，或者使用相同数据创建一个平滑响应的SVG条形图。
+选择器 使用W3C DOM API十分繁琐，因此D3使用selections，一种声明式的方式来随意的操纵节点。
+例如原dom有操作方式如下：
+var paragraphs = document."/>
+
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+    
+
+  <header>
+    <div class="bg-black">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l justify-between items-center center">
+    <a href="" class="f3 fw2 hover-white no-underline white-90 dib">
+      vv13&#39;s blog
+    </a>
+    <div class="flex-l items-center">
+      
+      
+
+
+
+
+
+
+
+
+    </div>
+  </div>
+</nav>
+
+    </div>
+  </header>
+
+
+    <main class="pb7" role="main">
+      
+  <div class="flex-l mt2 mw8 center">
+    <article class="center cf pv5 ph3 ph4-ns mw7">
+      <header>
+        <p class="f6 b helvetica tracked">
+          POSTS
+        </p>
+        <h1 class="f1">
+          d3-intro
+        </h1>
+      </header>
+      <div class="nested-copy-line-height lh-copy f4 nested-links nested-img mid-gray">
+        
+
+<p>D3.js是一个JavaScript库，它可以通过数据来操作文档。D3可以通过使用HTML、SVG和CSS把数据鲜活形象地展现出来。D3严格遵循Web标准，因而可以让你的程序轻松兼容现代主流浏览器并避免对特定框架的依赖。同时，它提供了强大的可视化组件，可以让使用者以数据驱动的方式去操作DOM。</p>
+
+<p>D3允许将数据绑定到DOM中，然后基于数据驱动去变化DOM。例如可以用数字数组来生成html的表格，或者使用相同数据创建一个平滑响应的SVG条形图。</p>
+
+<h2 id="选择器">选择器</h2>
+
+<p>使用W3C DOM API十分繁琐，因此D3使用selections，一种声明式的方式来随意的操纵节点。</p>
+
+<p>例如原dom有操作方式如下：</p>
+
+<pre><code>var paragraphs = document.getElementsByTagName(&quot;p&quot;);
+for (var i = 0; i &lt; paragraphs.length; i++) {
+  var paragraph = paragraphs.item(i);
+  paragraph.style.setProperty(&quot;color&quot;, &quot;white&quot;, null);
+}
+</code></pre>
+
+<p>使用d3的方式来重写：</p>
+
+<pre><code>d3.selectAll(&quot;p&quot;).style(&quot;color&quot;, &quot;white&quot;);
+d3.select(&quot;body&quot;).style(&quot;background-color&quot;, &quot;black&quot;)
+</code></pre>
+
+<p>打开调试的页面，即可看到效果。d3的选择器也是由标准<a href="https://www.w3.org/TR/selectors-api/">W3C Selectors API</a>构建的，因此在各种现代浏览器中原生支持。d3提供了丰富的方法来改变节点：设置属性、样式、注册事件、删除添加节点等，这些可以满足大多的需要。</p>
+
+<h2 id="动态特性">动态特性</h2>
+
+<p>d3就像dom的框架jquery一样，包含有许多属性、样式的函数方法，它不仅仅简化了方法，组合起来会惊人的强大。d3还提供了许多内建可复用的函数，如区域图形、线和饼图。</p>
+
+<p>例如，使偶数段落颜色值随机：</p>
+
+<pre><code>d3.selectAll('p').style('color', function (d, i) {
+  return i % 2 ? '#fff' : 'hsl(' + Math.random() * 360 + ',100%,50%)'
+})
+</code></pre>
+
+<p>计算属性通常用于绑定数据，数据规定为一个数组，每个元素都会通过第一个参数由默认顺序传递进入选择器函数，例如我们可以使用一个数组去动态设置字体大小：</p>
+
+<pre><code>d3.selectAll(&quot;p&quot;)
+  .data([4, 8, 15, 16, 23, 42])
+    .style(&quot;font-size&quot;, function(d) { return d + &quot;px&quot;; });
+</code></pre>
+
+<p>一旦数据被绑定到dom，那么在之后的操作中可以不用再一次绑定数据，d3将会检测先前绑定的数据，因此允许重新计算属性而不用重新绑定。</p>
+
+<h2 id="enter-和-exit">Enter 和 Exit</h2>
+
+<p>Enter可用于为新来的数据创建新的节点，当数据绑定到了选择器上时，每个结点都会有对应的数据，如果节点少于数据，那么<strong>额外的数据就会从enter选择器进入</strong>，在这里面就可以进行添加等操作，而Exitremove用于。</p>
+
+<p>如果没有使用Enter和Exit，会自动的选择存在存在并且匹配数据的节点进行更新操作，而exit用于退出节点，remove用于删除节点。</p>
+
+<p>D3让你基于数据对dom进行变化，这些操作包括了添加与删除，也允许改变响应事件、动画事件或是从第三方库异步通知，甚至支持混合的方式，从服务器上渲染，然后更新到客户端上。</p>
+
+<h2 id="转换">转换</h2>
+
+<p>D3不会引入新的视觉表现，而是直接来源于Web标准：HTML、SVG和CSS。因此无需考虑兼容性问题，因为所有D3使用的技术都是浏览器内置的元素与标准。</p>
+
+<p>D3专注于从自然到动画的转化，随着时间逐渐插入样式和属性，中间过程可以使用如“elastic”, “cubic-in-out” 和“linear”来控制补片。</p>
+
+<p>通过仅修改实际改变的属性，D3减少了开销，并允许在高帧速率下实现更大的图形复杂度。D3还允许通过事件对复杂过渡进行排序。而且，您仍然可以使用CSS3转换; D3不会取代浏览器的工具箱，而是以更容易使用的方式展开。</p>
+
+<h2 id="示例">示例</h2>
+
+<p>代码如下：</p>
+
+<pre><code>// css
+.chart div {
+  font: 10px sans-serif;
+  background-color: steelblue;
+  text-align: right;
+  padding: 3px;
+  margin: 1px;
+  color: white;
+}
+
+// html
+&lt;div class=&quot;chart&quot;&gt;
+&lt;/div&gt;
+
+// js
+d3.select(&quot;.chart&quot;)
+  .selectAll(&quot;div&quot;)
+  .data([30, 86, 168, 281, 303, 365])
+    .enter()
+    .append(&quot;div&quot;)
+    .style(&quot;width&quot;, function(d) { return d * 2 + &quot;px&quot;; })
+    .text(function(d) { return '$ ' + d; });
+
+</code></pre>
+
+<p>效果图：</p>
+
+<p><img src="http://7xp5r4.com1.z0.glb.clouddn.com/17-10-24/89023358.jpg" alt="" /></p>
+
+<p>其中，api方法如下：</p>
+
+<ul>
+<li>select，选中某一个元素</li>
+<li>selectAll，选中其中的div元素</li>
+<li>data，传入数据</li>
+<li>enter，对于额外数据进行插入操作</li>
+<li>append，插入div</li>
+<li>style，设置宽度，回调函数d代表data对应的值</li>
+<li>text，修改插入元素内的文字</li>
+</ul>
+
+      </div>
+    </article>
+    <aside class="ph3 mt2 mt6-ns">
+      
+
+
+
+
+
+
+
+  <div class="bg-light-gray pa3">
+    <ul>
+      <li class="list b mb3">
+        20 More Posts
+      </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/posts/css_adapt/" class="link ph2 pv2 db black">
+            去他妈的适配
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/posts/d3-intro/" class="link ph2 pv2 db black o-50">
+            d3-intro
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/posts/bfc-intro/" class="link ph2 pv2 db black">
+            css的BFC特性
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/posts/jenkins-deploy/" class="link ph2 pv2 db black">
+            jenkins部署
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/posts/js-event-trigger/" class="link ph2 pv2 db black">
+            js事件触发机制
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/posts/throttle/" class="link ph2 pv2 db black">
+            什么是函数节流
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/posts/%E7%AE%80%E5%8E%86%E4%B8%AD%E7%9A%84star%E5%8E%9F%E5%88%99/" class="link ph2 pv2 db black">
+            简历中的STAR原则
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/posts/%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B%E4%B8%AD%E7%9A%84thunk%E5%87%BD%E6%95%B0/" class="link ph2 pv2 db black">
+            异步编程中的thunk函数
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/posts/vue%E4%B8%AD%E5%A6%82%E4%BD%95%E8%87%AA%E5%AE%9A%E4%B9%89v-model/" class="link ph2 pv2 db black">
+            vue中如何自定义v-model
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/posts/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3javascript%E7%BA%BF%E7%A8%8B/" class="link ph2 pv2 db black">
+            理解javascript线程
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/posts/flex%E5%B8%83%E5%B1%80/" class="link ph2 pv2 db black">
+            flex布局
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/posts/bem%E8%A7%84%E8%8C%83/" class="link ph2 pv2 db black">
+            BEM规范
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/posts/%E6%B1%82%E8%B4%A8%E6%95%B0%E7%9A%84%E5%87%A0%E7%A7%8D%E6%96%B9%E6%B3%95/" class="link ph2 pv2 db black">
+            python求质数的几种方法
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/posts/%E5%86%92%E6%B3%A1%E9%80%89%E6%8B%A9%E4%B8%8E%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F/" class="link ph2 pv2 db black">
+            几个简单的排序-js描述
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/posts/nodejs%E4%B8%ADexports%E4%B8%8Emodule-exports%E7%9A%84%E5%8C%BA%E5%88%AB/" class="link ph2 pv2 db black">
+            nodejs中exports与module.exports的区别
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/posts/python%E5%8F%98%E9%87%8F%E4%BD%9C%E7%94%A8%E5%9F%9F/" class="link ph2 pv2 db black">
+            python变量作用域
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/posts/bom%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%BA%94%E7%94%A8/" class="link ph2 pv2 db black">
+            BOM对象的应用
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/posts/git-tricks/" class="link ph2 pv2 db black">
+            git实用命令技巧
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/posts/js%E4%BB%A3%E7%90%86%E5%87%BD%E6%95%B0%E6%8A%80%E5%B7%A7/" class="link ph2 pv2 db black">
+            js代理函数技巧
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/posts/js%E5%8F%98%E9%87%8F%E7%94%B3%E6%98%8E%E8%A7%A3%E6%9E%90/" class="link ph2 pv2 db black">
+            js变量申明解析
+          </a>
+        </li>
+      
+        <li class="list f5 w-100 hover-bg-white nl1">
+          
+          <a href="/posts/js%E5%8F%98%E9%87%8F%E7%9A%84%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" class="link ph2 pv2 db black">
+            js变量作用域与垃圾回收
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+    </aside>
+  </div>
+
+    </main>
+    <footer class="bg-near-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="" >
+    &copy; 2018 vv13&#39;s blog
+  </a>
+  
+
+
+
+
+
+
+
+
+  </div>
+</footer>
+
+    <script src="dist/app.bundle.js" async></script>
+
+  </body>
+</html>
